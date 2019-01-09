@@ -3,9 +3,11 @@
 {% for commit in tag.groups[group] %}
 - {{ "[" + commit.specific + "] " if commit.specific }}{{ commit.description.strip() }}
 {% if body == True and commit.body %}
+
   {{ commit.body }}
 {% endif %}
 {% if footer == True and commit.footer %}
+
   {{ commit.footer }}
 {% endif %}
 {% endfor %}
