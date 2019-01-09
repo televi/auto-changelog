@@ -1,19 +1,24 @@
 {% import 'tag_format.jinja2' as macros %}
 # {{ title }}
-
 {% if description %}
-{{ description|wordwrap() }}
-{% endif %}
 
+{{ description|wordwrap() }}
+
+{% endif %}
 {% if unreleased %}
+{% if assume %}
+## Version {{ assume }} ({{ now.strftime('%Y-%m-%d') }})
+
+{% else %}
 ## [Unreleased]
 
-{{ macros.commit_list_format(unreleased) }}
+{% endif %}
+{{ macros.commit_list_format(unreleased, body, footer) }}
 {% endif %}
 
-{% for tag in tags %}
+{%- for tag in tags %}
+
 ## {{ tag.name }} ({{ tag.date.strftime('%Y-%m-%d') }})
 
-{{ macros.commit_list_format(tag) }}
-
-{% endfor %}
+{{ macros.commit_list_format(tag, body, footer) }}
+{%- endfor %}

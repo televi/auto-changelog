@@ -25,6 +25,7 @@ class Tag:
                 self.__class__.__name__,
                 self.name)
     
+
 class Unreleased:
     def __init__(self, commits):
         self.name = 'Unreleased'
@@ -40,17 +41,35 @@ class Unreleased:
     def __repr__(self):
         return '<{}: {!r}>'.format(
                 self.__class__.__name__,
-                self.name)        
+                self.name)
         
+
 class Commit:
     def __init__(self, commit):
         self._commit = commit
         self.date = datetime.datetime.fromtimestamp(commit.committed_date)
         self.commit_hash = commit.hexsha
-        
-        first_line = commit.message.splitlines()[0].strip()
-        self.first_line = first_line
         self.message = commit.message
+
+        self.whole_message = self.message.splitlines()
+        self.whole_message_length = len(self.whole_message)
+        self.first_line = self.whole_message[0].strip()  # the subject
+        self.body = ""
+        self.footer = ""
+
+        # If we have > 1 line, then we have either a body, body and footer, or footer.
+        # The first line after the subject is blank so skip it.
+        # The next line up until the next blank or end of the message is the body.
+        # If there's anything after that, it becomes footer.
+        # If we have 2 blank lines, then we have no boddy but do have a footer.
+        #
+        if len(self.whole_message) > 1:
+            line = 2
+            while line < self.whole_message_length and len(self.whole_message[line]) > 0:
+                self.body += self.whole_message[line].strip()
+                line += 1
+            if line + 1 < self.whole_message_length:
+                self.footer += self.whole_message[line + 1]
         self.tag = None
         
         self.category, self.specific, self.description = self.categorize()
@@ -60,15 +79,13 @@ class Commit:
         
         if match:
             category, specific, description = match.groups()
-            specific = specific[1:-1]  if specific else None # Remove surrounding brackets
+            specific = specific[1:-1] if specific else None  # Remove surrounding brackets
             return category, specific, description
         else:
             return None, None, None
-        
-        
+
     def __repr__(self):
         return '<{}: {} "{}">'.format(
                 self.__class__.__name__,
                 self.commit_hash[:7],
                 self.date.strftime('%x %X'))
-

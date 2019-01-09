@@ -9,7 +9,6 @@ import git
 from .models import Commit, Tag, Unreleased
 
 
-
 def group_commits(tags, commits):
     tags = sorted(tags, key=lambda t: t.date)
 
@@ -49,11 +48,12 @@ def traverse(base_dir):
         t = Tag(
             name=tagref.name, 
             date=tagref.commit.committed_date, 
-            commit=tagref.commit)
+            commit=tagref.commit,
+            )
         wrapped_tags.append(t)
         
     commits = list(repo.iter_commits('master'))
-    commits = list(map(Commit, commits)) # Convert to Commit objects
+    commits = list(map(Commit, commits))  # Convert to Commit objects
 
     # Iterate through the commits, adding them to a tag's commit list
     # if it belongs to that release
@@ -67,4 +67,3 @@ def traverse(base_dir):
         unreleased = None
 
     return wrapped_tags, unreleased
-
