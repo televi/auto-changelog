@@ -15,8 +15,8 @@ Options:
                             The directory containing the templates used for
                             rendering the changelog
     -b --body               Include the message body in the output
-    -f --footer             Include the message footer in the output
-    -a --assume=version     Assume 'unreleased' commits will be in version [Default: Unreleased]
+    -f --footer             Include the message footer in the outputgit st
+    -a --assume=version     Assume 'unreleased' commits will be in version
     -h --help               Print this help text
     -V --version            Print the version number
 """
