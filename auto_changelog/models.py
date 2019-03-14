@@ -66,7 +66,7 @@ class Commit:
         if len(self.whole_message) > 1:
             line = 2
             while line < self.whole_message_length and len(self.whole_message[line]) > 0:
-                self.body += self.whole_message[line].strip()
+                self.body += " {}".format(self.whole_message[line].strip())
                 line += 1
             if line + 1 < self.whole_message_length:
                 self.footer += self.whole_message[line + 1]
