@@ -16,9 +16,11 @@
 {{ macros.commit_list_format(unreleased, body, footer) }}
 {% endif %}
 
+{% if not new %}
 {%- for tag in tags %}
 
 ## {{ tag.name }} ({{ tag.date.strftime('%Y-%m-%d') }})
 
 {{ macros.commit_list_format(tag, body, footer) }}
 {%- endfor %}
+{% endif %}

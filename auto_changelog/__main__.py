@@ -17,6 +17,8 @@ Options:
     -b --body               Include the message body in the output
     -f --footer             Include the message footer in the outputgit st
     -a --assume=version     Assume 'unreleased' commits will be in version
+    -n --new                Only emit content for the 'unreleased' version (applying -a,
+                            if applicable)
     -h --help               Print this help text
     -V --version            Print the version number
 """
@@ -60,6 +62,7 @@ def main():
             body=args['--body'],
             footer=args['--footer'],
             assume=args['--assume'],
+            new=args['--new'],
     )
 
     with open(args['--output'], 'w') as f:

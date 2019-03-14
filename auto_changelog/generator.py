@@ -2,7 +2,8 @@ import datetime
 from jinja2 import FileSystemLoader, Environment
 
 
-def generate_changelog(template_dir, title, description, unreleased, tags, body, footer, assume):
+def generate_changelog(template_dir, title, description, unreleased, tags, body, footer, assume,
+                       new):
     tags = sorted(tags, key=lambda t: t.date)
 
     # Set up the templating engine
@@ -18,6 +19,7 @@ def generate_changelog(template_dir, title, description, unreleased, tags, body,
         body=body,
         footer=footer,
         assume=assume,
+        new=new,
         now=datetime.datetime.now()
     )
 
